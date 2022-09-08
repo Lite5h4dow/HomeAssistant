@@ -1,0 +1,15 @@
+version: '3'
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /usr/local/share/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+  
+  homeassistant-tunnel:
+    container_name: homeassistant_tunnel
+    image: cloudflare/cloudflared:latest 
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARED_TOKEN}
